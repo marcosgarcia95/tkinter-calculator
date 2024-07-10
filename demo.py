@@ -7,6 +7,11 @@ def get_number(num):
     display.insert(i,num)
     i+=1
 
+def get_operation(operator):
+    global i
+    length = len(operator)
+    display.insert(i,operator)
+    i+=length
 
 display = Entry(root, width=60)
 display.grid(row=1, column=0, columnspan=6, )
@@ -29,7 +34,7 @@ operations = ['+','-','*','/','*3.14','%','(','**',')','**2']
 for x in range(4):
     for y in range (3):
         if op_count <len(operations):
-            button = Button(root, text=operations[op_count], width=10, height=2)
+            button = Button(root, text=operations[op_count], width=10, height=2, command = lambda x=operations[op_count]: get_operation(x))
             op_count += 1
             button.grid(row = x+2, column = y+3)
 
