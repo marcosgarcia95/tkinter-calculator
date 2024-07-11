@@ -1,4 +1,8 @@
 from tkinter import *
+from tkinter import ttk
+import ast
+
+
 i = 0
 
 root = Tk()
@@ -12,6 +16,24 @@ def get_operation(operator):
     length = len(operator)
     display.insert(i,operator)
     i+=length
+
+def clear_all():
+    display.delete(0,END)
+
+def calculate():
+    calc = display.get()
+    try:
+        node = ast.parse(calc, mode='eval')
+        result = eval(compile(node,'<string>','eval'))
+        clear_all()
+        display.insert(0,result)
+    except Exception:
+        clear_all()
+        display.insert(0,"Error")
+
+
+def delete_num():
+    display.delete(display.index("end") - 1)
 
 display = Entry(root, width=60)
 display.grid(row=1, column=0, columnspan=6, )
@@ -39,5 +61,8 @@ for x in range(4):
             button.grid(row = x+2, column = y+3)
 
 
+Button(root, text='AC', width=20, height=2, command=clear_all).grid(row=5, column=0)
+Button(root, text = '=', width=20, height=2, command = calculate).grid(row=5, column =2)
+Button(root, text = '<-', width=20, height=2, command = delete_num).grid(row=5, column=4,columnspan=2)
 
 root.mainloop()
